@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Salary Slip Slip Sender</title>
+    <link rel="stylesheet" href="public/bootstrap/dist/css/bootstrap.css">
+    <link href="public/toastr/toastr.css" rel="stylesheet" />
+    <link rel="stylesheet" href="public/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="public/style.css">
+    <script>
+        window.$ = window.jQuery = require('./public/jquery/dist/jquery.js');
+    </script>
+    <script type="text/javascript" src="public/bootstrap/dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="public/toastr/toastr.js"></script>
+    <script type="text/javascript" src="public/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="public/config.js"></script>
+</head>
+
+<body>
+
+    <div id="main">
+        <nav class="navbar navbar-default">
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html">发送列表</a></li>
+                    <li class="active"><a href="#">设置</a></li>
+                </ul>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container-fluid -->
+        </nav>
+        <div role="group" class="btn-group" style="float: right;">
+            <button v-on:click="save()" style="width: 100px; text-align: center;" type="button" class="btn btn-primary"><i class="fa fa-save"></i> 保存</button>
+        </div>
+        <h3 style="margin-bottom: 20px;">设置</h3>
+
+        <form class="form-horizontal">
+            <div class="panel panel-default">
+                <div class="panel-heading">邮件SMTP</div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">服务器HOST</label>
+                        <div class="col-sm-10">
+                            <input v-model="config.smtp.host" type="email" class="form-control" id="inputEmail3">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">端口PORT</label>
+                        <div class="col-sm-10">
+                            <input v-model="config.smtp.port" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">用户名</label>
+                        <div class="col-sm-10">
+                            <input v-model="config.smtp.user" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+                        <div class="col-sm-10">
+                            <input v-model="config.smtp.pass" type="password" class="form-control">
+                            <label>
+                                <input v-model="config.savePassword" type="checkbox">
+                            保存密码</label>
+                            <p class="form-tip">如果保存密码，请确保此计算机是您个人计算机，否则他人使用此计算机，可能导致您的密码泄露。</p>
+                            <button data-toggle="modal" data-target="#mailTestingModal" class="btn btn-default btn-xs">发送测试邮件</button>
+                            <p class="form-tip">确认以上的SMTP配置是否可以发送邮件。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- mailTestingModal : start -->
+            <div class="modal fade" id="mailTestingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">发送测试邮件</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-3 control-label">收件人</label>
+                                <div class="col-sm-9">
+                                    <input v-model="testReceiver" type="email" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button v-on:click="sendTestMail()" type="button" class="btn btn-primary" style="width: 100px;">发送</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- mailTestingModal : end -->
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading">发送人信息</div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">标题（模板）</label>
+                        <div class="col-sm-10">
+                            <input v-model="config.sender.subject" maxlength="128" class="form-control" id="inputEmail3">
+                            <p class="form-tip">模板格式：某某公司工资通知单（{year}年{month}月），其中，{year}代表年份，{month}代表月份。</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">发件人名称</label>
+                        <div class="col-sm-10">
+                            <input v-model="config.sender.name" maxlength="128" type="text" class="form-control">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div id="footer">
+        <span style="margin-right: 10px;">&copy;Tony Day</span>
+        <a href="mailto:itonyday@gmail.com"><i class="fa fa-envelope-open-o"></i> itonyday@gmail.com</a>
+    </div>
+    <h1 id="app-title">Salary Slip Sender</h1>
+</body>
+
+<script>
+    // You can also require other files to run in this process
+    require('./public/config.renderer.js')
+//console.log(columns);
+
+</script>
+
+</html>

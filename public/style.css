@@ -1,0 +1,41 @@
+body {
+    padding: 0;
+}
+#app-title{
+    text-align: center;
+background-color: #ddd;
+font-weight: bold;
+margin: 0;
+padding: 10px;
+border-bottom: solid 2px #bbb;
+/*margin-bottom: 10px;*/
+text-shadow: 1px 1px #fff;
+position: fixed;
+top:0;
+width: 100%;
+
+}
+
+#footer{
+border-top: solid 1px #bbb;
+padding: 10px;
+color: gray;
+}
+
+#main{
+    margin:10px;
+    padding-top: 70px;
+}
+
+.action-box{
+    background-color: #eee;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.form-tip{
+    color: gray;
+    font-weight: normal;
+    font-size: 80%;
+    padding-top: 5px;
+}

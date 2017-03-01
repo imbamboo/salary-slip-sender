@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Salary Slip Slip Sender</title>
+  <link rel="stylesheet" href="public/bootstrap/dist/css/bootstrap.css">
+  <link href="public/toastr/toastr.css" rel="stylesheet" />
+  <link rel="stylesheet" href="public/font-awesome/css/font-awesome.css">
+  <link rel="stylesheet" href="public/style.css">
+  <script>
+    window.$ = window.jQuery = require('./public/jquery/dist/jquery.js');
+  </script>
+  <script type="text/javascript" src="public/bootstrap/dist/js/bootstrap.js"></script>
+  <script type="text/javascript" src="public/toastr/toastr.js"></script>
+  <script type="text/javascript" src="public/vue/dist/vue.js"></script>
+  <script type="text/javascript" src="public/for-main.js"></script>
+</head>
+
+<body>
+  <h1 id="app-title">Salary Slip Sender</h1>
+  <div id="main">
+    <nav class="navbar navbar-default">
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="index.html">发送列表</a></li>
+          <li><a href="config.html">配置</a></li>
+        </ul>
+        <!-- /.navbar-collapse -->
+      </div>
+      <!-- /.container-fluid -->
+    </nav>
+
+    <div class="action-box">
+      <p>打开一个Excel文件，该文件是你要发送的工资单内容。</p>
+      <p>Excel文件至少需要包含两列名（'email'、'姓名'），email表示接收者的电子邮件地址。</p>
+      <p><a id="lnkOpenFile" v-on:click="openFile()" class="btn btn-primary" href="#">打开文件...</a></p>
+    </div>
+
+    <div role="group" class="btn-group" style="float: right;">
+      <button v-on:click="send()" style="width: 100px; text-align: center;" type="button" class="btn btn-primary"><i class="fa fa-send"></i> 发送</button>
+    </div>
+    <h3>发送列表</h3>
+    <button v-on:click="addNewRow()">add new row</button>
+    <button v-on:click="updateData()">update data</button>
+
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th style="width: 60px;">#</th>
+          <th style="width: 80px;">发送状态</th>
+          <th v-for="item in columns">{{item.title}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, index) in listing">
+          <td scope="row">{{index + 1}}</td>
+          <td style="text-align: center;">
+            <span v-if="item.status == 'pending'">未发送</span>
+            <i v-if="item.status == 'sending'" title="发送中" class="fa fa-refresh fa-spin"></i>
+            <i v-if="item.status == 'sent'" title="已发送" style="color:green;" class="fa fa-plane"></i>
+          </td>
+          <td>{{item.email}}</td>
+          <td v-for="(val, key) in item.details">
+            {{val}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button v-on:click="test()">toast</button>
+  </div>
+  <div id="footer">
+    <span style="margin-right: 10px;">&copy;Tony Day</span>
+    <a href="mailto:itonyday@gmail.com"><i class="fa fa-envelope-open-o"></i> itonyday@gmail.com</a>
+
+    <button onclick="callFeLogic(feTools)">callFeLogic</button>
+    <button id="node-fn-btn">nodeFn</button>
+    <button onclick="openFile33()">openFile33</button>
+  </div>
+
+</body>
+
+<script>
+                     // You can also require other files to run in this process
+                     require('./renderer.js')
+//console.log(columns);
+
+</script>
+
+</html>

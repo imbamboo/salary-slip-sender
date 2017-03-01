@@ -1,0 +1,30 @@
+{
+  "name": "salary slip sender",
+  "description": "A minimal Electron application",
+  "main": "main.js",
+  "authors": [
+    "Tony Day"
+  ],
+  "license": "CC0-1.0",
+  "keywords": [
+    "salary",
+    "slip",
+    "sender",
+    "by",
+    "email"
+  ],
+  "homepage": "https://github.com/electron/electron-quick-start",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "font-awesome": "fontawesome#^4.7.0",
+    "vue": "^2.1.10",
+    "toastr": "^2.1.3"
+  }
+}
